@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naves Icónicas de Star Wars</title>
+    <link rel="stylesheet" href="css/indexStyles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header con botón de perfil -->
+        <header>
+            <h1>Naves Iconicas de StarWars</h1>
+            <button id="login-button" class="profile-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+            </button>
+        </header>
+
+        <!-- Página principal con listado de naves -->
+        <main id="ships-container" class="page active">
+            <!-- Las tarjetas de naves se cargarán aquí dinámicamente -->
+        </main>
+
+        <!-- Página de detalles de nave -->
+        <section id="ship-details" class="page">
+            <div class="back-button-container">
+                <button id="back-to-list" class="back-button">← Volver</button>
+            </div>
+            <h2 id="detail-ship-name">Nombre de la Nave</h2>
+            <div class="detail-image-container">
+                <div id="detail-ship-image" class="ship-image"></div>
+                <button id="favorite-button" class="favorite-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                    </svg>
+                </button>
+            </div>
+            <div class="detail-info">
+                <p class="detail-label">Clase de la nave:</p>
+                <p id="detail-ship-class">Clase de la nave</p>
+                
+                <p class="detail-label">Información de la nave:</p>
+                <p id="detail-ship-info">Información de la nave...</p>
+                
+                <p class="detail-label">Créditos de costo:</p>
+                <p id="detail-ship-cost">Créditos de costo</p>
+            </div>
+        </section>
+
+        <!-- Página de inicio de sesión -->
+        <section id="login-page" class="page">
+            <div class="back-button-container">
+                <button id="back-from-login" class="back-button">← Volver</button>
+            </div>
+            <h2>Registro Simple</h2>
+            <form id="login-form" class="login-form">
+                <div class="form-group">
+                    <label for="username">Correo electrónico:</label>
+                    <input type="email" id="username" name="username" required placeholder="tu@email.com">
+                </div>
+                <div id="test-mode-info" style="margin: 10px 0; font-size: 14px; color: #666;">
+                    Esta aplicación está en modo de prueba. Tus datos de favoritos se guardarán en texto plano en Firebase.
+                </div>
+                <button type="submit" class="login-submit-btn">Guardar Datos</button>
+            </form>
+        </section>
+
+        <!-- Menú de navegación -->
+        <nav class="menu">
+            <button class="button" data-page="home">
+                <svg xmlns="http://www.w3.org/2000/svg" width="27" height="28" viewBox="0 0 27 28" fill="none">
+                    <path d="M26.625 26.1667C26.625 26.5535 26.4714 26.9244 26.1979 27.1979C25.9244 27.4714 25.5534 27.625 25.1667 27.625H1.83333C1.44656 27.625 1.07563 27.4714 0.802136 27.1979C0.528646 26.9244 0.375 26.5535 0.375 26.1667V10.8396C0.374846 10.6174 0.425483 10.398 0.523044 10.1984C0.620605 9.99871 0.762509 9.82397 0.937917 9.68752L12.6046 0.612316C12.8606 0.413174 13.1757 0.305054 13.5 0.305054C13.8243 0.305054 14.1394 0.413174 14.3954 0.612316L26.0621 9.68752C26.2375 9.82397 26.3794 9.99871 26.477 10.1984C26.5745 10.398 26.6252 10.6174 26.625 10.8396V26.1667Z" fill="white"/>
+                </svg>
+            </button>
+            <button class="button" data-page="rebellion">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                    <path d="M0.791466 15.5719C0.979733 10.5806 3.50923 5.97709 8.13333 2.93507C8.14699 2.94019 8.26677 2.89656 8.21205 3.00013C7.84576 3.33976 1.26037 11.119 7.32203 17.2593C7.32203 17.2593 10.5069 20.3211 12.9765 17.4159C12.9765 17.4159 15.4135 14.261 12.9457 9.47853C12.9457 9.47853 12.3211 7.91693 10.0705 6.94829L11.883 4.94851C11.883 4.94851 13.4146 5.60568 14.6006 7.38808C14.6006 7.38808 14.6639 5.51149 13.2263 3.51181L16.0365 0.323547L18.8183 3.48184C18.8183 3.48184 17.5391 5.29421 17.4449 7.41805C17.4449 7.41805 18.3186 5.98051 20.1943 4.94861L21.9742 6.9484C21.9742 6.9484 20.2627 7.51235 19.1162 9.45816C18.1303 11.261 17.3714 15.1168 19.1605 17.4819C19.1605 17.4819 21.1629 20.3212 24.685 17.3144C24.685 17.3144 31.161 11.5118 24.0209 3.12259C24.0209 3.12259 23.6307 2.77773 24.0688 2.96515C27.2246 5.26275 31.0034 8.29272 31.3936 15.8544C31.2396 25.0241 25.099 31.5701 16.1324 31.5701C7.35296 31.5699 0.527999 24.2435 0.791466 15.5719Z" fill="white"/>
+                </svg>
+            </button>
+            <button class="button" data-page="empire">
+                <svg xmlns="http://www.w3.org/2000/svg" width="33" height="33" viewBox="0 0 33 33" fill="none">
+                    <path d="M16.5 0C7.392 0 0 7.392 0 16.5C0 25.608 7.392 33 16.5 33C25.608 33 33 25.608 33 16.5C33 7.392 25.608 0 16.5 0ZM15.7213 1.36799C15.7306 1.36752 15.7401 1.36844 15.7494 1.36799L15.8195 2.48693C14.8678 2.5323 13.9416 2.67109 13.0485 2.89732L13.3256 3.9882C10.9814 4.58198 8.89338 5.81648 7.25733 7.49586L6.45408 6.71014C5.80078 7.38037 5.21671 8.11659 4.70727 8.90593L3.76722 8.28508C6.33467 4.31533 10.708 1.62238 15.7213 1.36799ZM17.2506 1.36799C22.2756 1.6138 26.6606 4.30797 29.2328 8.28508L28.2927 8.90593C27.7844 8.11858 27.2009 7.38247 26.5494 6.71365L25.7462 7.49586C24.1099 5.81558 22.0194 4.58218 19.6744 3.9882L19.9515 2.89732C19.0584 2.67109 18.1322 2.5323 17.1805 2.48693L17.2506 1.36799ZM16.5 6.31378C16.977 6.31268 17.4541 6.34184 17.8469 6.39796L17.2331 11.5051C18.5234 11.6933 19.6546 12.3685 20.4356 13.3396L24.5325 10.2669C25.0302 10.8868 25.5943 11.8594 25.89 12.596L21.1827 14.6094C21.4193 15.1939 21.551 15.8309 21.551 16.5C21.551 17.1446 21.4312 17.7605 21.2108 18.3275L25.8795 20.3233C25.5914 21.0643 25.0331 22.0351 24.5431 22.6594L20.4742 19.6148C19.6943 20.608 18.55 21.3016 17.2436 21.4949L17.8469 26.5179C17.0612 26.6389 15.9388 26.6371 15.1531 26.5249L15.7564 21.4949C14.449 21.3015 13.3058 20.6057 12.5258 19.6113L8.46748 22.6559C7.96983 22.036 7.40566 21.0634 7.11001 20.3268L11.7892 18.324C11.5696 17.7579 11.449 17.1434 11.449 16.5C11.449 15.8298 11.5799 15.1913 11.8173 14.6059L7.12054 12.5995C7.4086 11.8585 7.96689 10.8877 8.45695 10.2634L12.5644 13.3396C13.3454 12.3685 14.4766 11.6933 15.7669 11.5051L15.1531 6.40497C15.5459 6.34448 16.023 6.31487 16.5 6.31378ZM3.01658 9.58291L4.02679 10.081C3.60072 10.907 3.25236 11.7791 2.99554 12.6907L4.07589 12.9959C3.76182 14.1104 3.59184 15.2854 3.59184 16.5C3.59184 17.7158 3.76123 18.8921 4.07589 20.0077L2.99554 20.3128C3.25218 21.2229 3.60124 22.0943 4.02679 22.919L3.01658 23.4171C1.94968 21.343 1.34694 18.9915 1.34694 16.5C1.34694 14.0085 1.94968 11.657 3.01658 9.58291ZM29.9834 9.58291C31.0503 11.657 31.6531 14.0085 31.6531 16.5C31.6531 18.9915 31.0503 21.343 29.9834 23.4171L28.9732 22.919C29.3989 22.094 29.7477 21.2232 30.0045 20.3128L28.9241 20.0077C29.2388 18.8921 29.4082 17.7158 29.4082 16.5C29.4082 15.2854 29.2382 14.1104 28.9241 12.9959L30.0045 12.6907C29.7477 11.7794 29.3991 10.9068 28.9732 10.081L29.9834 9.58291ZM4.70727 24.0941C5.2169 24.8834 5.80075 25.6196 6.45408 26.2899L7.25733 25.5041C8.89338 27.1835 10.9814 28.418 13.3256 29.0118L13.0485 30.1027C13.9416 30.3289 14.8678 30.4677 15.8195 30.5131L15.7494 31.632C10.7244 31.3862 6.33943 28.692 3.76722 24.7149L4.70727 24.0941ZM28.2962 24.0941L29.2328 24.7149C26.6606 28.692 22.2756 31.3862 17.2506 31.632L17.1805 30.5131C18.1322 30.4677 19.0584 30.3289 19.9515 30.1027L19.6744 29.0118C22.0194 28.4178 24.1099 27.1844 25.7462 25.5041L26.5494 26.2864C27.2017 25.6167 27.7873 24.8825 28.2962 24.0941Z" fill="white"/>
+                </svg>
+            </button>
+            <button class="button" data-page="dice">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <circle cx="8.5" cy="8.5" r="1.5" fill="white"></circle>
+                    <circle cx="15.5" cy="8.5" r="1.5" fill="white"></circle>
+                    <circle cx="8.5" cy="15.5" r="1.5" fill="white"></circle>
+                    <circle cx="15.5" cy="15.5" r="1.5" fill="white"></circle>
+                </svg>
+            </button>
+            <button class="button" data-page="favorites">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+            </button>
+        </nav>
+    </div>
+
+    <!-- Template para las tarjetas de naves -->
+    <template id="ship-card-template">
+        <div class="ship-card" data-ship-id="">
+            <div class="ship-image">
+                <!-- Imagen de la nave -->
+            </div>
+            <div class="ship-info">
+                <h3 class="ship-name">Nombre de la Nave</h3>
+                <p class="ship-class">Clase de la nave: </p>
+                <p class="ship-cost">Creditos de costo: </p>
+            </div>
+        </div>
+    </template>
+
+<script src="js/main.js" type="module"></script></body>
+</html>
