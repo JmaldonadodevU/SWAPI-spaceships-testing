@@ -2,7 +2,7 @@ const CACHE_NAME = 'swapi-ships-cache-v1';
 const urlsToCache = [
   '/',
   '/index.html',
-  '/offline.html',  // Asegúrate que esté incluido
+  '/offline.html',  
   '/css/indexStyles.css',
   '/js/main.js',
   '/js/app.js',
@@ -20,7 +20,7 @@ const urlsToCache = [
   '/js/ui/shipDetails.js'
 ];
 
-// Imágenes de las naves (puedes añadir las que uses frecuentemente)
+
 const shipImages = [
   '/src/img/A-wing.png',
   '/src/img/B-wing.png',
@@ -31,10 +31,8 @@ const shipImages = [
   '/src/img/TIE-fighter.png'
 ];
 
-// Combinar todos los recursos a cachear
 const resourcesToCache = [...urlsToCache, ...shipImages];
 
-// Instalación del Service Worker
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -45,7 +43,6 @@ self.addEventListener('install', event => {
   );
 });
 
-// Activación del Service Worker
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(cacheNames => {
@@ -61,12 +58,10 @@ self.addEventListener('activate', event => {
   );
 });
 self.addEventListener('fetch', event => {
-  // Para solicitudes a la API de SWAPI, usamos network-first
   if (event.request.url.includes('swapi.info/api')) {
     event.respondWith(
       fetch(event.request)
         .then(response => {
-          // Si la solicitud es exitosa, clonar y almacenar en caché
           let responseToCache = response.clone();
           caches.open(CACHE_NAME)
             .then(cache => {
@@ -75,21 +70,14 @@ self.addEventListener('fetch', event => {
           return response;
         })
         .catch(() => {
-          // Si falla la red, intentar desde caché
           return caches.match(event.request)
             .then(cachedResponse => {
-              // Si tenemos una respuesta en caché, la devolvemos
               if (cachedResponse) {
                 return cachedResponse;
               }
-              
-              // Si no tenemos caché para un recurso de la API, redirigir a offline.html
-              // pero solo si la solicitud es para un documento HTML
               if (event.request.mode === 'navigate') {
                 return caches.match('/offline.html');
               }
-              
-              // Si no es una navegación, simplemente fallar
               return new Response('Network error', {
                 status: 408,
                 headers: new Headers({
@@ -100,7 +88,6 @@ self.addEventListener('fetch', event => {
         })
     );
   } else {
-    // Para otros recursos (CSS, JS, HTML), usamos cache-first
     event.respondWith(
       caches.match(event.request)
         .then(response => {
@@ -109,7 +96,6 @@ self.addEventListener('fetch', event => {
           }
           return fetch(event.request)
             .then(response => {
-              // Si la solicitud es exitosa y es un recurso válido para caché
               if (!response || response.status !== 200 || response.type !== 'basic') {
                 return response;
               }
@@ -127,7 +113,6 @@ self.addEventListener('fetch', event => {
   }
 });
 
-// Manejar mensajes push
 self.addEventListener('push', event => {
   if (event.data) {
     const data = event.data.json();
@@ -147,7 +132,6 @@ self.addEventListener('push', event => {
   }
 });
 
-// Manejar clics en notificaciones
 self.addEventListener('notificationclick', event => {
   event.notification.close();
   event.waitUntil(
