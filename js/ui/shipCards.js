@@ -1,4 +1,6 @@
 // Funciones para mostrar las tarjetas de naves
+import { getShipImageUrl } from '../config/images.js';
+
 export const ShipCards = {
     // Crea una tarjeta para una nave
     createShipCard(shipData, template, onCardClick) {
@@ -13,6 +15,15 @@ export const ShipCards = {
         
         // Añade el evento de clic a la tarjeta
         cardElement.addEventListener('click', () => onCardClick(shipId));
+        
+        // Cargar la imagen de la nave
+        const shipImage = shipCard.querySelector('.ship-image');
+        if (shipImage) {
+            shipImage.style.backgroundImage = `url('${getShipImageUrl(shipId)}')`;
+            shipImage.style.backgroundSize = 'contain';
+            shipImage.style.backgroundPosition = 'center';
+            shipImage.style.backgroundRepeat = 'no-repeat';
+        }
         
         // Actualiza los datos en la tarjeta
         shipCard.querySelector('.ship-name').textContent = shipData.name;

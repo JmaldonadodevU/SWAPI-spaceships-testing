@@ -5,18 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Naves Icónicas de Star Wars</title>
     <link rel="stylesheet" href="css/indexStyles.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#FF0000">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="src/icons/icon-192x192.png">
 </head>
 <body>
     <div class="app-container">
         <!-- Header con botón de perfil -->
         <header>
             <h1>Naves Iconicas de StarWars</h1>
-            <button id="login-button" class="profile-button">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="12" cy="7" r="4"></circle>
-                </svg>
-            </button>
+            <div class="header-buttons">
+                <!-- Botón para modo de comparación -->
+                <button id="comparison-mode-button" class="comparison-button" title="Activar modo comparación">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M16 3h5v5"></path>
+                        <path d="M8 21l-5-5l5-5"></path>
+                        <path d="M21 3L8 16"></path>
+                    </svg>
+                </button>
+                <span id="comparison-status" class="comparison-status"></span>
+                <button id="clear-comparison-button" class="clear-comparison-button" style="display:none;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18"></path>
+                        <path d="M6 6l12 12"></path>
+                    </svg>
+                </button>
+                <!-- Botón de perfil -->
+                <button id="login-button" class="profile-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </button>
+            </div>
         </header>
 
         <!-- Página principal con listado de naves -->
@@ -32,11 +56,20 @@
             <h2 id="detail-ship-name">Nombre de la Nave</h2>
             <div class="detail-image-container">
                 <div id="detail-ship-image" class="ship-image"></div>
-                <button id="favorite-button" class="favorite-button">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                    </svg>
-                </button>
+                <div class="detail-buttons">
+                    <button id="favorite-button" class="favorite-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                        </svg>
+                    </button>
+                    <button id="compare-button" class="compare-button" title="Añadir a comparación">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 3h5v5"></path>
+                            <path d="M8 21l-5-5l5-5"></path>
+                            <path d="M21 3L8 16"></path>
+                        </svg>
+                    </button>
+                </div>
             </div>
             <div class="detail-info">
                 <p class="detail-label">Clase de la nave:</p>
@@ -47,6 +80,83 @@
                 
                 <p class="detail-label">Créditos de costo:</p>
                 <p id="detail-ship-cost">Créditos de costo</p>
+            </div>
+        </section>
+
+        <!-- Página de comparación de naves -->
+        <section id="ship-comparison" class="page">
+            <div class="back-button-container">
+                <button id="comparison-close-btn" class="back-button">← Volver</button>
+            </div>
+            <h2>Comparación de Naves</h2>
+            
+            <div class="comparison-container">
+                <div class="comparison-header">
+                    <div class="comparison-spec-label"></div>
+                    <div class="comparison-ship-header">
+                        <h3 id="comparison-ship1-name">Nave 1</h3>
+                        <div id="comparison-ship1-image" class="comparison-ship-image"></div>
+                    </div>
+                    <div class="comparison-ship-header">
+                        <h3 id="comparison-ship2-name">Nave 2</h3>
+                        <div id="comparison-ship2-image" class="comparison-ship-image"></div>
+                    </div>
+                </div>
+                
+                <!-- Filas de comparación -->
+                <div id="comparison-class" class="comparison-row">
+                    <div class="comparison-spec-label">Clase</div>
+                    <div class="comparison-spec-value1"></div>
+                    <div class="comparison-spec-value2"></div>
+                </div>
+                
+                <div id="comparison-length" class="comparison-row">
+                    <div class="comparison-spec-label">Longitud</div>
+                    <div class="comparison-spec-value1"></div>
+                    <div class="comparison-spec-value2"></div>
+                </div>
+                
+                <div id="comparison-crew" class="comparison-row">
+                    <div class="comparison-spec-label">Tripulación</div>
+                    <div class="comparison-spec-value1"></div>
+                    <div class="comparison-spec-value2"></div>
+                </div>
+                
+                <div id="comparison-passengers" class="comparison-row">
+                    <div class="comparison-spec-label">Pasajeros</div>
+                    <div class="comparison-spec-value1"></div>
+                    <div class="comparison-spec-value2"></div>
+                </div>
+                
+                <div id="comparison-cargo" class="comparison-row">
+                    <div class="comparison-spec-label">Capacidad</div>
+                    <div class="comparison-spec-value1"></div>
+                    <div class="comparison-spec-value2"></div>
+                </div>
+                
+                <div id="comparison-speed" class="comparison-row">
+                    <div class="comparison-spec-label">Velocidad</div>
+                    <div class="comparison-spec-value1"></div>
+                    <div class="comparison-spec-value2"></div>
+                </div>
+                
+                <div id="comparison-hyperdrive" class="comparison-row">
+                    <div class="comparison-spec-label">Hiperimpulsor</div>
+                    <div class="comparison-spec-value1"></div>
+                    <div class="comparison-spec-value2"></div>
+                </div>
+                
+                <div id="comparison-cost" class="comparison-row">
+                    <div class="comparison-spec-label">Costo</div>
+                    <div class="comparison-spec-value1"></div>
+                    <div class="comparison-spec-value2"></div>
+                </div>
+                
+                <div id="comparison-manufacturer" class="comparison-row">
+                    <div class="comparison-spec-label">Fabricante</div>
+                    <div class="comparison-spec-value1"></div>
+                    <div class="comparison-spec-value2"></div>
+                </div>
             </div>
         </section>
 

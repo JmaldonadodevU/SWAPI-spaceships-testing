@@ -42,7 +42,13 @@ h1 {
     font-weight: bold;
 }
 
-.profile-button {
+.header-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.profile-button, .comparison-button, .clear-comparison-button {
     background: none;
     border: none;
     width: 40px;
@@ -55,10 +61,26 @@ h1 {
     cursor: pointer;
 }
 
-.profile-button svg {
-    width: 24px;
-    height: 24px;
+.comparison-button.active {
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.comparison-button.active svg {
+    stroke: #ff3b3b;
+}
+
+.clear-comparison-button {
+    width: 30px;
+    height: 30px;
+}
+
+.comparison-status {
+    font-size: 12px;
     color: white;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
 }
 
 /* Estilos para páginas */
@@ -111,6 +133,12 @@ main {
 
 .ship-card:hover {
     transform: translateY(-5px);
+}
+
+body.comparison-mode .ship-card:hover {
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 5px 15px rgba(255, 59, 59, 0.5);
+    border: 2px solid #ff3b3b;
 }
 
 .ship-image {
@@ -183,10 +211,15 @@ main {
     background-color: #ddd;
 }
 
-.favorite-button {
+.detail-buttons {
     position: absolute;
     bottom: 15px;
     right: 15px;
+    display: flex;
+    gap: 10px;
+}
+
+.favorite-button, .compare-button {
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -205,7 +238,13 @@ main {
     stroke: #ff3b3b;
 }
 
-favorite-button.active svg {
+.compare-button svg {
+    width: 30px;
+    height: 30px;
+    stroke: #4a4a4a;
+}
+
+.favorite-button.active svg {
     fill: #ff3b3b;
 }
 
@@ -230,6 +269,93 @@ favorite-button.active svg {
 #detail-ship-info {
     line-height: 1.5;
     white-space: pre-line;
+}
+
+/* Página de comparación */
+#ship-comparison {
+    width: 100%;
+    align-items: flex-start;
+    padding: 20px;
+}
+
+.comparison-container {
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.comparison-header {
+    display: grid;
+    grid-template-columns: 1fr 2fr 2fr;
+    gap: 10px;
+    align-items: center;
+}
+
+.comparison-ship-header {
+    text-align: center;
+    padding: 10px;
+}
+
+.comparison-ship-header h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.comparison-ship-image {
+    height: 150px;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-color: #ddd;
+    border-radius: 8px;
+}
+
+.comparison-row {
+    display: grid;
+    grid-template-columns: 1fr 2fr 2fr;
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: #f0f0f0;
+    min-height: 40px;
+}
+
+.comparison-row:nth-child(odd) {
+    background-color: #e6e6e6;
+}
+
+.comparison-spec-label {
+    padding: 10px 15px;
+    background-color: #6b6b6b;
+    color: white;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.comparison-spec-value1, .comparison-spec-value2 {
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+}
+
+.better-value {
+    color: #22a559;
+    font-weight: bold;
+    position: relative;
+}
+
+.better-value::after {
+    content: '✓';
+    display: inline-block;
+    margin-left: 5px;
+    color: #22a559;
+}
+
+.worse-value {
+    color: #777;
 }
 
 /* pagina de inicio de sesion */
@@ -503,6 +629,21 @@ body.empire-theme header {
     .ship-card {
         max-width: 100%;
     }
+    .comparison-container {
+        font-size: 14px;
+    }
+    .comparison-row {
+        grid-template-columns: 80px 1fr 1fr;
+    }
+    .comparison-spec-label, .comparison-spec-value1, .comparison-spec-value2 {
+        padding: 8px 10px;
+    }
+    .comparison-status {
+        max-width: 80px;
+    }
+    .header-buttons {
+        gap: 5px;
+    }
 }
 
 /* Estilos para la barra de búsqueda */
@@ -612,6 +753,31 @@ body.empire-theme header {
     color: transparent;
 }
 
+/* Estilos de comparación para diferentes temas */
+.theme-empire .comparison-spec-label {
+    background-color: #770000;
+}
+
+.theme-republic .comparison-spec-label {
+    background-color: #a83232;
+}
+
+.theme-separatist .comparison-spec-label {
+    background-color: #1f3163;
+}
+
+.theme-rebellion .comparison-spec-label {
+    background-color: #3c78d8;
+}
+
+.theme-favorites .comparison-spec-label {
+    background-color: #3d2a7d;
+}
+
+.theme-dice .comparison-spec-label {
+    background-image: linear-gradient(to right, #c41919 0%, #3633a8 100%);
+}
+
 @media (max-width: 480px) {
     .search-container {
         max-width: 100%;
@@ -639,6 +805,9 @@ body.empire-theme header {
     .button svg {
         width: 20px;
         height: 20px;
+    }
+    .comparison-row {
+        grid-template-columns: 100px 1fr 1fr;
     }
 }
 

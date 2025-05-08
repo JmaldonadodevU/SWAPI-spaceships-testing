@@ -13,14 +13,13 @@ import {
 } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
 // Configuración de Firebase
-// Configuración de Firebase - Reemplaza con tus propias credenciales
 const firebaseConfig = {
-    apiKey: "TU_API_KEY",
-    authDomain: "tu-proyecto.firebaseapp.com",
-    projectId: "tu-proyecto",
-    storageBucket: "tu-proyecto.appspot.com",
+    apiKey: "YOUR_API_KEY",
+    authDomain: "your-project-id.firebaseapp.com",
+    projectId: "your-project-id",
+    storageBucket: "your-project-id.appspot.com",
     messagingSenderId: "000000000000",
-    appId: "1:000000000000:web:000000000000"
+    appId: "1:000000000000:web:0000000000000000000000"
 };
 
 // Inicializar Firebase

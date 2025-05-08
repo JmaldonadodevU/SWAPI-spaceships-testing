@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sin conexión - SWAPI Starships</title>
+    <link rel="stylesheet" href="css/indexStyles.css">
+    <style>
+        .offline-container {
+            text-align: center;
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .offline-icon {
+            font-size: 72px;
+            margin-bottom: 20px;
+        }
+        .try-again-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #FF0000;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>Naves Iconicas de StarWars</h1>
+        </header>
+        
+        <div class="offline-container">
+            <div class="offline-icon">📡</div>
+            <h2>Sin conexión</h2>
+            <p>No puedes acceder a esta página porque no tienes conexión a Internet.</p>
+            <p>Algunas funciones están disponibles en modo offline, pero necesitas conexión para ver nuevas naves.</p>
+            <button class="try-again-btn" onclick="window.location.reload()">Intentar de nuevo</button>
+        </div>
+    </div>
+</body>
+</html>

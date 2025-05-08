@@ -5,6 +5,7 @@ import { ShipCards } from './ui/shipCards.js';
 import { ShipDetails } from './ui/shipDetails.js';
 import { CategoryUI } from './ui/categoryUI.js';
 import { AuthService } from './services/authService.js';  // Importamos el nuevo servicio
+import { ShipComparison } from './ui/shipComparison.js';  // Importar el componente de comparación
 
 // Clase principal de la aplicación
 export class StarWarsApp {
@@ -18,6 +19,7 @@ export class StarWarsApp {
         this.currentPage = 'home';
         this.currentShipId = null;
         this.favorites = FavoriteService.loadFavorites();
+        this.shipToCompare = null;
         
         // Enlazar métodos al contexto actual
         this.handleMenuClick = this.handleMenuClick.bind(this);
@@ -26,6 +28,8 @@ export class StarWarsApp {
         this.handleLoginSubmit = this.handleLoginSubmit.bind(this);
         this.updateAuthUI = this.updateAuthUI.bind(this);
         this.handleLoadCategory = this.handleLoadCategory.bind(this);
+        this.addShipToComparison = this.addShipToComparison.bind(this);
+        this.toggleComparisonMode = this.toggleComparisonMode.bind(this);
     }
     
     // Inicializar la aplicación
@@ -33,6 +37,9 @@ export class StarWarsApp {
         // Inicializa el servicio de autenticación
         AuthService.init();
         AuthService.enhanceLoginForm(); // Añadir esta línea
+        
+        // Inicializar el componente de comparación
+        ShipComparison.init();
         
         this.setupEventListeners();
         this.loadShips('home');
@@ -117,6 +124,19 @@ export class StarWarsApp {
         // Botón de favoritos
         document.getElementById('favorite-button').addEventListener('click', this.toggleFavorite);
         
+        // Botón de modo comparación en la página de detalles
+        document.getElementById('compare-button').addEventListener('click', this.addShipToComparison);
+        
+        // Botón para activar/desactivar el modo comparación
+        document.getElementById('comparison-mode-button').addEventListener('click', this.toggleComparisonMode);
+        
+        // Botón para limpiar la comparación
+        document.getElementById('clear-comparison-button').addEventListener('click', () => {
+            ShipComparison.clearComparison();
+            document.getElementById('comparison-status').textContent = '';
+            document.getElementById('clear-comparison-button').style.display = 'none';
+        });
+        
         // Botón de inicio de sesión
         document.getElementById('login-button').addEventListener('click', () => {
             Navigation.navigateToPage('login-page');
@@ -127,8 +147,72 @@ export class StarWarsApp {
             Navigation.navigateToPage('ships-container');
         });
         
+        // Botón de cerrar comparación
+        document.getElementById('comparison-close-btn').addEventListener('click', () => {
+            Navigation.navigateToPage('ships-container');
+        });
+        
         // Formulario de login - reemplazamos por la nueva función
         document.getElementById('login-form').addEventListener('submit', this.handleLoginSubmit);
+    }
+    
+    // Activar/desactivar modo comparación
+    toggleComparisonMode() {
+        const button = document.getElementById('comparison-mode-button');
+        const isActive = button.classList.contains('active');
+        
+        if (isActive) {
+            // Desactivar modo comparación
+            button.classList.remove('active');
+            button.title = 'Activar modo comparación';
+            document.body.classList.remove('comparison-mode');
+            
+            // Limpiar selección actual
+            ShipComparison.clearComparison();
+            document.getElementById('comparison-status').textContent = '';
+            document.getElementById('clear-comparison-button').style.display = 'none';
+        } else {
+            // Activar modo comparación
+            button.classList.add('active');
+            button.title = 'Desactivar modo comparación';
+            document.body.classList.add('comparison-mode');
+            
+            // Mostrar instrucciones
+            document.getElementById('comparison-status').textContent = 'Selecciona 2 naves para comparar';
+            document.getElementById('clear-comparison-button').style.display = 'inline-block';
+        }
+    }
+    
+    // Añadir nave actual a la comparación
+    addShipToComparison() {
+        // Si estamos en la página de detalles, añadir la nave actual
+        if (this.currentShipId) {
+            ShipService.loadShip(this.currentShipId).then(shipData => {
+                const readyToCompare = ShipComparison.addShipToComparison(
+                    this.currentShipId, 
+                    shipData
+                );
+                
+                // Actualizar texto de estado
+                const statusEl = document.getElementById('comparison-status');
+                if (statusEl) {
+                    const count = ShipComparison.selectedShips.length;
+                    
+                    if (count === 1) {
+                        statusEl.textContent = '1 nave seleccionada. Selecciona otra nave para comparar.';
+                    }
+                    
+                    // Si ya tenemos 2 naves, mostrar la comparación
+                    if (readyToCompare) {
+                        statusEl.textContent = '¡2 naves seleccionadas!';
+                        ShipComparison.showComparison();
+                    }
+                }
+                
+                // Mostrar el botón de limpiar
+                document.getElementById('clear-comparison-button').style.display = 'inline-block';
+            });
+        }
     }
     
     // Manejar envío del formulario de login
@@ -294,6 +378,12 @@ export class StarWarsApp {
             }
             
             ShipDetails.showShipDetails(shipData, shipId, this.favorites);
+            
+            // Si estamos en modo comparación, agregar esta nave a la comparación
+            const comparisonModeBtn = document.getElementById('comparison-mode-button');
+            if (comparisonModeBtn && comparisonModeBtn.classList.contains('active')) {
+                this.addShipToComparison();
+            }
             
         } catch (error) {
             console.error('Error al mostrar detalles de la nave:', error);

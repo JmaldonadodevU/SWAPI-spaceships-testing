@@ -1,6 +1,7 @@
 import { SHIP_DESCRIPTIONS } from '../config/ships.js';
 import { Navigation } from './navigation.js';
 import { ShipService } from '../services/shipService.js';
+import { getShipImageUrl } from '../config/images.js';
 
 // Functions for displaying ship details
 export const ShipDetails = {
@@ -9,6 +10,15 @@ export const ShipDetails = {
         // Update elements with ship data
         document.getElementById('detail-ship-name').textContent = shipData.name;
         document.getElementById('detail-ship-class').textContent = shipData.starship_class;
+        
+        // Cargar la imagen de la nave
+        const shipImage = document.getElementById('detail-ship-image');
+        if (shipImage) {
+            shipImage.style.backgroundImage = `url('${getShipImageUrl(shipId)}')`;
+            shipImage.style.backgroundSize = 'contain';
+            shipImage.style.backgroundPosition = 'center';
+            shipImage.style.backgroundRepeat = 'no-repeat';
+        }
         
         // Create detailed information
         const info = `Fabricante: ${shipData.manufacturer}

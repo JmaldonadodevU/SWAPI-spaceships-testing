@@ -1,4 +1,5 @@
 import { StarWarsApp } from './app.js';
+import './pwa.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const app = new StarWarsApp();
